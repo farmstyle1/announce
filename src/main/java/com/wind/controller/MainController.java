@@ -29,7 +29,7 @@ public class MainController {
 		DatabaseManager dbManager = new DatabaseManager();
 		try {
 			
-			dbManager.insertAnnounce(announceBean);
+			dbManager.saveAnnounce(announceBean);
 			
 		} catch (ClassNotFoundException e) {
 			
