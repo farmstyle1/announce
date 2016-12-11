@@ -94,6 +94,26 @@ public class MainController {
 		
 	}
 	
+	@CrossOrigin
+	@RequestMapping(value="/deleteAnnounceById/{announceId}",method = RequestMethod.GET)
+	@ResponseBody
+	public void deleteAnnounceById(@PathVariable String announceId ){
+		
+		DatabaseManager dbManager = new DatabaseManager();
+		try {
+			
+				dbManager.deleteAnnounceById(announceId);
+			 
+				
+				
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	
 	
 }

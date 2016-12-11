@@ -364,6 +364,34 @@ public class DatabaseManager {
 		return new AnnounceBean();
 	}
 	
+	public void deleteAnnounceById(String announceId) throws ClassNotFoundException{
+
+		String sql = "DELETE FROM Announce WHERE announce_id = ? ";
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			if(conn!=null){
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, announceId);
+				ps.execute();
+				ps.close();
+				
+			}
+	
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+			
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+					
+				} catch (SQLException e) {}
+			}
+		}
+		
+	}
+	
 	public List<String> loadAnnounceGroup(String announceId) throws ClassNotFoundException{
 
 		String sql = "SELECT * FROM Announce_Group WHERE announce_id = ?";
