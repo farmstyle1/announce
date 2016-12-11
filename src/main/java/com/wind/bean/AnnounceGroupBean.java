@@ -4,6 +4,16 @@ public class AnnounceGroupBean {
 	private String announceId;
 	private String groupId;
 	
+	public AnnounceGroupBean() {
+		super();
+	}
+
+	public AnnounceGroupBean(String announceId, String groupId) {
+		super();
+		this.announceId = announceId;
+		this.groupId = groupId;
+	}
+	
 	public String getAnnounceId() {
 		return announceId;
 	}
