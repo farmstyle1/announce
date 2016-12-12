@@ -220,7 +220,7 @@ public class DatabaseManager {
 		}
 	}
 	
-	public ClientGroupListBean loadClientGroup(String clientId) throws ClassNotFoundException{
+	public ClientGroupBean loadClientGroup(String clientId) throws ClassNotFoundException{
 
 		String sql = "SELECT * FROM Client_Group WHERE client_id = ?";
 		Connection conn = null;
@@ -232,22 +232,20 @@ public class DatabaseManager {
 				ps.setString(1, clientId);
 				rs=ps.executeQuery();
 				
-				
-				ClientGroupListBean clientGroupListBean = new ClientGroupListBean();
-				List<ClientGroupBean> listClientGroupBean = new ArrayList<ClientGroupBean>();
+				ClientGroupBean clientGroupBean = new ClientGroupBean();
 				
 				while(rs.next()){
-					ClientGroupBean clientGroupBean = new ClientGroupBean();
+					
 					clientGroupBean.setClientId(rs.getString("client_id"));
 					clientGroupBean.setGroupId(new  Gson().fromJson(rs.getString("group_id"), ArrayList.class));
-					listClientGroupBean.add(clientGroupBean);
+				
 				}
 
 				ps.close();
 				
-				clientGroupListBean.setClientGroupListBean(listClientGroupBean);
+			
 				
-				return clientGroupListBean;
+				return clientGroupBean;
 				
 			}
 	
@@ -263,7 +261,7 @@ public class DatabaseManager {
 				} catch (SQLException e) {}
 			}
 		}
-		return new ClientGroupListBean();
+		return new ClientGroupBean();
 	}
 	
 	public AnnounceListBean loadAllAnnounceData() throws ClassNotFoundException{
@@ -362,6 +360,58 @@ public class DatabaseManager {
 			}
 		}
 		return new AnnounceBean();
+	}
+	
+	public AnnounceListBean loadAnnounceByGroupId(String groupId) throws ClassNotFoundException{
+
+		String sql = "SELECT * FROM Announce WHERE announce_group LIKE ? ";
+		Connection conn = null;
+		ResultSet rs = null; 
+		try {
+			conn = getConnection();
+			if(conn!=null){
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, "%"+groupId+"%");
+				rs=ps.executeQuery();
+				
+				AnnounceListBean announceListBean = new AnnounceListBean();
+				List<AnnounceBean> listAnnounceBean = new ArrayList<AnnounceBean>();
+				
+				
+				while(rs.next()){
+					AnnounceBean announceBean = new AnnounceBean();
+					announceBean.setAnnounceId(String.valueOf(rs.getInt("announce_id")));
+					announceBean.setAnnounceSubject(rs.getString("announce_subject"));
+					announceBean.setAnnounceImage(rs.getString("announce_image"));
+					announceBean.setAnnounceDetail(rs.getString("announce_detail"));
+					announceBean.setAnnounceGroup(new Gson().fromJson(rs.getString("announce_group"), ArrayList.class));
+					listAnnounceBean.add(announceBean);
+					
+
+				}
+				
+
+				ps.close();
+				
+				announceListBean.setAnnounceListBean(listAnnounceBean);
+				return announceListBean;
+				
+				
+			}
+	
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+			
+		} finally {
+			if (conn != null) {
+				try {
+					rs.close();
+					conn.close();
+					
+				} catch (SQLException e) {}
+			}
+		}
+		return new AnnounceListBean();
 	}
 	
 	public void deleteAnnounceById(String announceId) throws ClassNotFoundException{
@@ -482,6 +532,7 @@ public class DatabaseManager {
 	
 	@Test 
 	public void main() throws ClassNotFoundException{
+		loadAnnounceByGroupId("audi");
 	}
 	
 }

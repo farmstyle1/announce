@@ -1,5 +1,6 @@
 $(document).ready(function () {
 	
+
 	$('#nextGroup').click(function(){
 		if($('#clientId').val()!=""){
 			$('#myModal').modal('hide');
