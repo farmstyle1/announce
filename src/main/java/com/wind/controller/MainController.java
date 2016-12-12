@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wind.bean.AnnounceBean;
 import com.wind.bean.AnnounceListBean;
+import com.wind.bean.ClientGroupBean;
 import com.wind.manager.DatabaseManager;
 
 
@@ -111,6 +112,23 @@ public class MainController {
 			e.printStackTrace();
 		}
 		
+		
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value="/saveClientGroup",method = RequestMethod.POST)
+	@ResponseBody
+	public void saveClientGroup(@RequestBody ClientGroupBean clientGroupBean){
+		
+		DatabaseManager dbManager = new DatabaseManager();
+		try {
+			
+			dbManager.saveClientGroup(clientGroupBean);
+		
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 	

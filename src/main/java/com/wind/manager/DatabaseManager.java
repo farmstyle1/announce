@@ -202,7 +202,7 @@ public class DatabaseManager {
 			if(conn!=null){
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ps.setString(1, bean.getClientId());
-				ps.setString(2, bean.getGroupId());
+				ps.setString(2, new Gson().toJson(bean.getGroupId()));
 				
 				ps.executeUpdate();
 				ps.close();
@@ -239,7 +239,7 @@ public class DatabaseManager {
 				while(rs.next()){
 					ClientGroupBean clientGroupBean = new ClientGroupBean();
 					clientGroupBean.setClientId(rs.getString("client_id"));
-					clientGroupBean.setGroupId(rs.getString("group_id"));
+					clientGroupBean.setGroupId(new  Gson().fromJson(rs.getString("group_id"), ArrayList.class));
 					listClientGroupBean.add(clientGroupBean);
 				}
 
